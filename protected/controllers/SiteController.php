@@ -113,7 +113,7 @@ class SiteController extends Controller
             spl_autoload_unregister(array('YiiBase','autoload'));        
             include($eppPath . DIRECTORY_SEPARATOR . 'Client.php');
 
-           $client = new Net_EPP_Client;
+            $client = new Net_EPP_Client;
 
            
       //     stream_context_set_option($ctx, 'ssl', 'verify_peer', true);
@@ -122,8 +122,8 @@ class SiteController extends Controller
       //     stream_context_set_option($ctx, 'ssl', 'capath', '/var/www/epp_ragistrar/');
       //     stream_context_set_option($ctx, 'ssl', 'capture_peer_cert_chain', true);
       //     stream_context_set_option($ctx, 'ssl', 'capture_peer_cert', true);
-      //    stream_context_set_option($ctx, 'ssl', 'allow_self_signed', false);
-      //    $fd = $client->connect('demo.fred.nic.cz', 700, 10, true,$ctx);
+      //     stream_context_set_option($ctx, 'ssl', 'allow_self_signed', false);
+      //     $fd = $client->connect('demo.fred.nic.cz', 700, 10, true,$ctx);
            
             $ctx = stream_context_create();
             stream_context_set_option($ctx, 'ssl', 'local_cert', dirname(__FILE__).'/ucc-key.pem');

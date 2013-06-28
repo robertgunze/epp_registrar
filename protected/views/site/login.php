@@ -46,7 +46,7 @@ $this->breadcrumbs=array(
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Login'); ?>
+		<?php echo CHtml::submitButton('Sign in',array('class'=>'btn btn-large btn-primary')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
