@@ -28,7 +28,7 @@
     ================================================== -->
     <div class="navbar-wrapper">
       <!-- Wrap the .navbar in .container to center it within the absolutely positioned parent. -->
-      <div class="container" style="background-color:black">
+      <div class="container" style="background-color:#1D1D1D">
 
         <div class="navbar navbar-inverse">
           <div class="navbar-inner">
