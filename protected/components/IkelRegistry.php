@@ -356,13 +356,9 @@ public function ikeltz_Client(){
             $client = new Net_EPP_Client;
            
             $ctx = stream_context_create();
-            //stream_context_set_option($ctx, 'ssl', 'local_cert', dirname(__FILE__).'/ucc-key.pem');
             stream_context_set_option($ctx, 'ssl', 'local_cert', dirname(__FILE__).'/test-key.pem');
-            
-            //$res = $client->connect('196.216.162.71', 700, 5, true,$ctx);
             $res = $client->connect('demo.fred.nic.cz', 700, 10, true,$ctx);
-            
-            
+                
             # Perform login
         $params['Username'] = 'REG-FRED_A';
         $params['Password'] = 'passwd';
