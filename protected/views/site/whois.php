@@ -7,7 +7,7 @@ $this->pageTitle=Yii::app()->name;
 <div class="center hero-unit">
 
 <div class="row buttons" style="float:left">
-         <?php echo CHtml::textField('','',array('style'=>'width:300px;height:35px;')); ?>
+         <?php echo CHtml::textField('','',array('style'=>'width:300px;height:35px;font-size:20px;')); ?>
          <?php echo CHtml::dropDownList('','',  IkelRegistry::getSldList(),array('style'=>'width:80px;height:45px;font-size:20px;'));?>
          <?php echo CHtml::linkButton('Check domain',array('class'=>'btn btn-large btn-primary','style'=>'margin-top:-10px;')); ?>
         
