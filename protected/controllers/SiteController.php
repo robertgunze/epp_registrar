@@ -156,7 +156,19 @@ class SiteController extends Controller
                    ');
         
         spl_autoload_register(array('YiiBase','autoload'));
+        
+       
 	return $client;
      
+        }
+        
+        
+        public  function actionWhois(){
+            $registry = new IkelRegistry;
+            //print_r($registry);
+            $data = $registry->infoDomain('test.cz');
+            //print_r($data);
+            
+            $this->render('whois',array('data'=>$data));
         }
 }

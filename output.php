@@ -1,0 +1,12 @@
+$fred_encoding = 'utf-8'; // used encoding
+$fred_command = 'hello'; // command sent to the server
+$fred_code = 0; // code returned from server
+$fred_reason = ''; // reason returned from server (description of the code)
+$fred_reason_errors = array(); // errors described details that caused invalid code
+$fred_labels = array(); // descriptions of the data columns
+$fred_data = array(); // data returned by server
+$fred_data_attrib = array(); // data attributes returned by server
+$fred_labels['svID'] = 'Server ID';
+$fred_data['svID'] = 'EPP server (DSDng)';
+$fred_source_command = '';
+$fred_source_answer = '';

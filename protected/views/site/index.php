@@ -6,7 +6,7 @@ $this->pageTitle=Yii::app()->name;
 
 <div class="center hero-unit">
 <h1>Welcome to <i><?php echo CHtml::encode(Yii::app()->name); ?></i></h1>
-<?php $client = $this->ikeltz_Client();
+<?php //$client = $this->ikeltz_Client();
  $xml = '
      <epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -39,18 +39,31 @@ $this->pageTitle=Yii::app()->name;
    </epp>
 ';
  
- $result = $client->request($xml);
- print_r($result);
+ $xml = '<epp:epp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:epp="urn:ietf:params:xml:ns:epp-1.0" 
+		xmlns:domain="urn:ietf:params:xml:ns:domain-1.0" xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
+	<epp:command>
+		<epp:info>
+			<domain:info xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0 domain-1.0.xsd">
+				<domain:name hosts="all">nic.cz</domain:name>
+			</domain:info>
+		</epp:info>
+	</epp:command>
+</epp:epp>
+';
+ //$result = $client->request($xml);
  
+  
  
 ?>
+
 
 <p>EPP is the Extensible Provisioning Protocol. EPP (defined in RFC 5730 and subsequent documents) is an application layer client-server protocol for the provisioning and management of objects stored in a shared central repository.</p> 
 <p>Specified in XML, the protocol defines generic object management operations and an extensible framework that maps protocol operations to objects. As of writing, its only well-developed application is the provisioning of Internet domain names, hosts, and related contact details.
 
 	<div class="row buttons" style="float:right">
 		<?php echo CHtml::linkButton('Register for an API key',array('class'=>'btn btn-large btn-primary')); ?>
-	        <?php echo CHtml::linkButton('Login to buy .tz domain',array('class'=>'btn btn-large btn-primary')); ?>
+	        <?php echo CHtml::linkButton('Login to buy .tz domain',array('class'=>'btn btn-large btn-primary')); 
+                ?>
         </div>
 
 </div>

@@ -1,0 +1,10 @@
+$fred_encoding = 'utf-8'; // used encoding
+$fred_command = 'domain:renew'; // command sent to the server
+$fred_code = 2201; // code returned from server
+$fred_reason = 'Authorization error'; // reason returned from server (description of the code)
+$fred_reason_errors = array('Reason: Object does not belong to the registrar'); // errors described details that caused invalid code
+$fred_labels = array(); // descriptions of the data columns
+$fred_data = array(); // data returned by server
+$fred_data_attrib = array(); // data attributes returned by server
+$fred_source_command = '';
+$fred_source_answer = '';
