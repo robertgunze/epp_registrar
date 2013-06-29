@@ -10,9 +10,7 @@ $this->pageTitle=Yii::app()->name;
          <?php echo CHtml::textField('','',array('style'=>'width:300px;height:35px;font-size:20px;')); ?>
          <?php echo CHtml::dropDownList('','',  IkelRegistry::getSldList(),array('style'=>'width:80px;height:45px;font-size:20px;'));?>
          <?php echo CHtml::linkButton('Check domain',array('class'=>'btn btn-large btn-primary','style'=>'margin-top:-10px;')); ?>
-        
-	        
-  </div>
+</div>
 
 <h3><?php //echo $fred_reason;?></h3>
   <table>
@@ -37,8 +35,8 @@ $this->pageTitle=Yii::app()->name;
   </tr>
 
  <tr>
-    <td><?php echo $data['labels']['domain:upID'];?></td>
-    <td><?php echo $data['values']['domain:upID'] ;?></td>
+    <td><?php // $data['labels']['domain:upID'];?></td>
+    <td><?php //echo $data['values']['domain:upID'] ;?></td>
   </tr>
 
  <tr>
@@ -47,13 +45,13 @@ $this->pageTitle=Yii::app()->name;
   </tr>
 
  <tr>
-    <td><?php echo $data['labels']['domain:trDate'] ;?></td>
-    <td><?php echo $data['values']['domain:trDate'] ;?></td>
+    <td><?php //echo $data['labels']['domain:trDate'] ;?></td>
+    <td><?php //echo $data['values']['domain:trDate'] ;?></td>
   </tr>
 
  <tr>
-    <td><?php echo $data['labels']['domain:upDate'];?></td>
-    <td><?php echo $data['values']['domain:upDate'] ;?></td>
+    <td><?php //echo $data['labels']['domain:upDate'];?></td>
+    <td><?php //echo $data['values']['domain:upDate'] ;?></td>
   </tr>
 
  <tr>

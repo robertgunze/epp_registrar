@@ -12,8 +12,8 @@
 interface IRegistry {
     //put your code here
     
-    function checkContact();
-    function checkDomain();
+    function checkContact($contact_id);
+    function checkDomain($domain);
     function checkKeyset();
     function checkNsset();
     function createContact();
@@ -48,7 +48,7 @@ interface IRegistry {
     function prepNssets();
     function prepNssetByContact();
     function prepNssetByNs();
-    function renewDomain();
+    function renewDomain($domain,$period);
     function sendAuthInfoContact();
     function sendAuthInfoDomain();
     function sendAuthInfoKeyset();

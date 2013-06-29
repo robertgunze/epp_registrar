@@ -6,55 +6,11 @@ $this->pageTitle=Yii::app()->name;
 
 <div class="center hero-unit">
 <h1>Welcome to <i><?php echo CHtml::encode(Yii::app()->name); ?></i></h1>
-<?php //$client = $this->ikeltz_Client();
- $xml = '
-     <epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0
-       epp-1.0.xsd">
-    <hello/>
-  </epp>
-';
- 
- $xml = '
-  <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
-  <command>
-    <check>
-      <domain:check
-       xmlns:domain="urn:ietf:params:xml:ns:domain-1.0">
-        <domain:name>nominet.org.uk</domain:name>
-      </domain:check>
-    </check>
-    <clTRID>ABC-12345</clTRID>
-  </command>
-</epp>
-';
- 
- $xml = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-   <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
-     <command>
-       <logout/>
-       <clTRID>ABC-12345</clTRID>
-     </command>
-   </epp>
-';
- 
- $xml = '<epp:epp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:epp="urn:ietf:params:xml:ns:epp-1.0" 
-		xmlns:domain="urn:ietf:params:xml:ns:domain-1.0" xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
-	<epp:command>
-		<epp:info>
-			<domain:info xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0 domain-1.0.xsd">
-				<domain:name hosts="all">nic.cz</domain:name>
-			</domain:info>
-		</epp:info>
-	</epp:command>
-</epp:epp>
-';
- //$result = $client->request($xml);
- 
-  
- 
-?>
+<?php
+    $registry = new IkelRegistry();
+//    $registry->renewDomain('ikeltz.cz', 1);
+    $registry->checkDomain('ikeltz.cz');
+ ?>
 
 
 <p>EPP is the Extensible Provisioning Protocol. EPP (defined in RFC 5730 and subsequent documents) is an application layer client-server protocol for the provisioning and management of objects stored in a shared central repository.</p> 

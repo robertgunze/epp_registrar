@@ -13,10 +13,86 @@
 class IkelRegistry implements IRegistry{
     //put your code here
 
-public function checkContact(){
+public function checkContact($contact_id){
+  $xml ='<?xml version="1.0" encoding="utf-8" standalone="no"?>
+        <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
+        <command>
+        <check>
+            <contact:check 
+               xmlns:contact="http://www.nic.cz/xml/epp/contact-1.6" 
+               xsi:schemaLocation="http://www.nic.cz/xml/epp/contact-1.6 contact-1.6.xsd">
+              <contact:id>'.$contact_id.'</contact:id>
+            </contact:check>
+        </check>
+<clTRID>eyjz002#13-06-29at22:52:44</clTRID>
+</command>
+</epp>
+
+   ';
+  
+  $client = $this->ikeltz_Client();
+  $result = $client->request($xml);
+  
+  $doc = new DOMDocument;
+  $doc->loadXML($result);
+  $coderes = $doc->getElementsByTagName('result')->item(0)->getAttribute('code');
+  $msg = $doc->getElementsByTagName('msg')->item(0)->nodeValue;
+  $reason = $doc->getElementsByTagName('reason')->item(0)->nodeValue;
+  
+  if(!$coderes == 1000){
+             echo "<pre>";
+             echo "Code {$coderes} {$msg}<br />";
+             echo "</pre>";
+  }
+  else{
+             echo "<pre>";
+             echo "Code {$coderes} {$msg}<br />";
+             echo "Status: Contact {$reason}";
+             echo "</pre>";
+  }
 }
 
-public function checkDomain(){
+public function checkDomain($domain){
+     $xml ='<?xml version="1.0" encoding="utf-8" standalone="no"?>
+         <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" 
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+              xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
+              <command>
+                 <check>
+                     <domain:check 
+                        xmlns:domain="http://www.nic.cz/xml/epp/domain-1.4" 
+                        xsi:schemaLocation="http://www.nic.cz/xml/epp/domain-1.4 domain-1.4.xsd">
+                           <domain:name>'.$domain.'</domain:name>
+                     </domain:check>
+                </check>
+                <clTRID>ehcu002#13-06-29at23:37:45</clTRID>
+              </command>
+        </epp>
+
+   ';
+  
+  $client = $this->ikeltz_Client();
+  $result = $client->request($xml);
+  
+  $doc = new DOMDocument;
+  $doc->loadXML($result);
+  $coderes = $doc->getElementsByTagName('result')->item(0)->getAttribute('code');
+  $msg = $doc->getElementsByTagName('msg')->item(0)->nodeValue;
+  $available = $doc->getElementsByTagName('name')->item(0)->getAttribute('avail');
+  $status = $available?'Available':'Taken';
+  if(!$coderes == 1000){
+             echo "<pre>";
+             echo "Code {$coderes} {$msg}<br />";
+             echo "</pre>";
+  }
+  else{
+             echo "<pre>";
+             echo "Code {$coderes} {$msg}<br />";
+             echo "Status: Domain {$status}";
+             echo "</pre>";
+  }
 }
 
 public function checkKeyset(){
@@ -138,7 +214,83 @@ public function prepNssetByNs(){
 public function prepNssets(){
 }
 
-public function renewDomain(){
+public function renewDomain($domain,$period){
+$client = $this->ikeltz_Client();
+ 
+$xml = '<?xml version="1.0" encoding="utf-8" standalone="no"?>
+    <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
+         
+    <command>
+       <info>
+         <domain:info xmlns:domain="http://www.nic.cz/xml/epp/domain-1.4" 
+                 xsi:schemaLocation="http://www.nic.cz/xml/epp/domain-1.4 domain-1.4.xsd">
+         <domain:name>'.$domain.'</domain:name>
+         </domain:info>
+       </info>
+     <clTRID>vapk002#13-06-29at19:20:49</clTRID>
+    </command>
+</epp>';
+ $result = $client->request($xml);
+ 
+ 
+ $doc = new DOMDocument;
+ $doc->loadXML($result);
+ $coderes = $doc->getElementsByTagName('result')->item(0)->getAttribute('code');
+ $msg = $doc->getElementsByTagName('msg')->item(0)->nodeValue;
+  if(!$coderes == 1000){
+       $values["error"] = "Code (".$coderes.") ".$msg;
+  }elseif($coderes == 2303){
+             echo "<pre>";
+             echo "Code (".$coderes.") ".$msg.'<br />';
+             echo "</pre>";
+  }
+  else{
+      
+      //echo "Code (".$coderes.") ".$msg;
+      $expDate = substr($doc->getElementsByTagName('exDate')->item(0)->nodeValue,0,10);
+      //echo $expDate;
+      
+      //send request to renew
+      $xml = '<?xml version="1.0" encoding="utf-8" standalone="no"?>
+          <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" 
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+          xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
+          <command>
+           <renew>
+             <domain:renew 
+               xmlns:domain="http://www.nic.cz/xml/epp/domain-1.4" 
+               xsi:schemaLocation="http://www.nic.cz/xml/epp/domain-1.4 domain-1.4.xsd">
+              <domain:name>'.$domain.'</domain:name>
+              <domain:curExpDate>'.$expDate.'</domain:curExpDate>
+              <domain:period unit="y">'.$period.'</domain:period>
+            </domain:renew>
+           </renew>
+           <clTRID>zoqj002#13-06-29at20:52:17</clTRID>
+         </command>
+      </epp>';
+      $domainRenew = $client->request($xml);
+        $doc = new DOMDocument;
+        $doc->loadXML($domainRenew);
+        $coderes = $doc->getElementsByTagName('result')->item(0)->getAttribute('code');
+        $msg = $doc->getElementsByTagName('msg')->item(0)->nodeValue;
+        //$reason = $doc->getElementsByTagName('reason')->item(0)->nodeValue;
+         if(!$coderes == 1000){
+              $values["error"] = "Code (".$coderes.") ".$msg."<br />";
+         }
+
+         else{
+
+             echo "<pre>";
+             echo "Code (".$coderes.") ".$msg.'<br />';
+             //echo $reason;
+             echo "</pre>";
+             
+         }
+      
+  }
+ 
 }
 
 public function sendAuthInfoContact(){
@@ -194,6 +346,51 @@ public static function getSldList(){
         '.sc.tz',
     );
 }
+
+public function ikeltz_Client(){
+            
+            $eppPath = Yii::getPathOfAlias('application.components.epp.Net.EPP');
+            spl_autoload_unregister(array('YiiBase','autoload'));        
+            include($eppPath . DIRECTORY_SEPARATOR . 'Client.php');
+
+            $client = new Net_EPP_Client;
+           
+            $ctx = stream_context_create();
+            //stream_context_set_option($ctx, 'ssl', 'local_cert', dirname(__FILE__).'/ucc-key.pem');
+            stream_context_set_option($ctx, 'ssl', 'local_cert', dirname(__FILE__).'/test-key.pem');
+            
+            //$res = $client->connect('196.216.162.71', 700, 5, true,$ctx);
+            $res = $client->connect('demo.fred.nic.cz', 700, 10, true,$ctx);
+            
+            
+            # Perform login
+        $params['Username'] = 'REG-FRED_A';
+        $params['Password'] = 'passwd';
+	$result = $client->request('
+                    <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
+                            <command>
+                                    <login>
+                                            <clID>'.$params['Username'].'</clID>
+                                            <pw>'.$params['Password'].'</pw>
+                                            <options>
+                                            <version>1.0</version>
+                                            <lang>en</lang>
+                                            </options>
+                                            <svcs>
+                                                    <objURI>urn:ietf:params:xml:ns:domain-1.0</objURI>
+                                                    <objURI>urn:ietf:params:xml:ns:contact-1.0</objURI>
+                                            </svcs>
+                                    </login>
+                            </command>
+                    </epp>
+                   ');
+        
+        spl_autoload_register(array('YiiBase','autoload'));
+        
+       
+	return $client;
+     
+        }
 
 }
 

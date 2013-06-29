@@ -107,66 +107,11 @@ class SiteController extends Controller
 		$this->redirect(Yii::app()->homeUrl);
 	}
         
-        public function ikeltz_Client(){
-            
-            $eppPath = Yii::getPathOfAlias('application.components.epp.Net.EPP');
-            spl_autoload_unregister(array('YiiBase','autoload'));        
-            include($eppPath . DIRECTORY_SEPARATOR . 'Client.php');
-
-            $client = new Net_EPP_Client;
-
-           
-      //     stream_context_set_option($ctx, 'ssl', 'verify_peer', true);
-      //     stream_context_set_option($ctx, 'ssl', 'passphrase', 'passwd');
-      //     stream_context_set_option($ctx, 'ssl', 'cafile', dirname(__FILE__).'/test-cert.pem');
-      //     stream_context_set_option($ctx, 'ssl', 'capath', '/var/www/epp_ragistrar/');
-      //     stream_context_set_option($ctx, 'ssl', 'capture_peer_cert_chain', true);
-      //     stream_context_set_option($ctx, 'ssl', 'capture_peer_cert', true);
-      //     stream_context_set_option($ctx, 'ssl', 'allow_self_signed', false);
-      //     $fd = $client->connect('demo.fred.nic.cz', 700, 10, true,$ctx);
-           
-            $ctx = stream_context_create();
-            //stream_context_set_option($ctx, 'ssl', 'local_cert', dirname(__FILE__).'/ucc-key.pem');
-            stream_context_set_option($ctx, 'ssl', 'local_cert', dirname(__FILE__).'/test-key.pem');
-            
-            //$res = $client->connect('196.216.162.71', 700, 5, true,$ctx);
-            $res = $client->connect('demo.fred.nic.cz', 700, 10, true,$ctx);
-            
-            
-            # Perform login
-        $params['Username'] = 'REG-FRED_A';
-        $params['Password'] = 'passwd';
-	$result = $client->request('
-                    <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
-                            <command>
-                                    <login>
-                                            <clID>'.$params['Username'].'</clID>
-                                            <pw>'.$params['Password'].'</pw>
-                                            <options>
-                                            <version>1.0</version>
-                                            <lang>en</lang>
-                                            </options>
-                                            <svcs>
-                                                    <objURI>urn:ietf:params:xml:ns:domain-1.0</objURI>
-                                                    <objURI>urn:ietf:params:xml:ns:contact-1.0</objURI>
-                                            </svcs>
-                                    </login>
-                            </command>
-                    </epp>
-                   ');
-        
-        spl_autoload_register(array('YiiBase','autoload'));
-        
-       
-	return $client;
-     
-        }
-        
         
         public  function actionWhois(){
             $registry = new IkelRegistry;
             //print_r($registry);
-            $data = $registry->infoDomain('test.cz');
+            $data = $registry->infoDomain('ikeltz.cz');
             //print_r($data);
             
             $this->render('whois',array('data'=>$data));
