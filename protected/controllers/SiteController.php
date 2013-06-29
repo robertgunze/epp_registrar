@@ -126,15 +126,37 @@ class SiteController extends Controller
       //     $fd = $client->connect('demo.fred.nic.cz', 700, 10, true,$ctx);
            
             $ctx = stream_context_create();
-            stream_context_set_option($ctx, 'ssl', 'local_cert', dirname(__FILE__).'/ucc-key.pem');
-
-
-            $fd = $client->connect('196.216.162.71', 700, 5, true,$ctx);
-
-
-            spl_autoload_register(array('YiiBase','autoload'));
+            //stream_context_set_option($ctx, 'ssl', 'local_cert', dirname(__FILE__).'/ucc-key.pem');
+            stream_context_set_option($ctx, 'ssl', 'local_cert', dirname(__FILE__).'/test-key.pem');
             
-            return $fd;
+            //$res = $client->connect('196.216.162.71', 700, 5, true,$ctx);
+            $res = $client->connect('demo.fred.nic.cz', 700, 10, true,$ctx);
+            
+            
+            # Perform login
+        $params['Username'] = 'REG-FRED_A';
+        $params['Password'] = 'passwd';
+	$result = $client->request('
+                    <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
+                            <command>
+                                    <login>
+                                            <clID>'.$params['Username'].'</clID>
+                                            <pw>'.$params['Password'].'</pw>
+                                            <options>
+                                            <version>1.0</version>
+                                            <lang>en</lang>
+                                            </options>
+                                            <svcs>
+                                                    <objURI>urn:ietf:params:xml:ns:domain-1.0</objURI>
+                                                    <objURI>urn:ietf:params:xml:ns:contact-1.0</objURI>
+                                            </svcs>
+                                    </login>
+                            </command>
+                    </epp>
+                   ');
+        
+        spl_autoload_register(array('YiiBase','autoload'));
+	return $client;
      
         }
 }

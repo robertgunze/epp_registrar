@@ -8,5 +8,6 @@ $this->breadcrumbs=array(
 ?>
 <h1>About</h1>
 
-<p>This is a "static" page. You may change the content of this page
-by updating the file <code><?php echo __FILE__; ?></code>.</p>
+<p>EPP is the Extensible Provisioning Protocol. EPP (defined in RFC 5730 and subsequent documents) is an application layer client-server protocol for the provisioning and management of objects stored in a shared central repository.</p> 
+<p>Specified in XML, the protocol defines generic object management operations and an extensible framework that maps protocol operations to objects. As of writing, its only well-developed application is the provisioning of Internet domain names, hosts, and related contact details.
+
