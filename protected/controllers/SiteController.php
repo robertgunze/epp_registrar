@@ -27,10 +27,73 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
-		// renders the view file 'protected/views/site/index.php'
-		// using the default layout 'protected/views/layouts/main.php'
-		$this->render('index');
+                $domainLookup = new DomainLookup;
+                if(isset($_POST['DomainLookup'])){
+                    $domainLookup->attributes = $_POST['DomainLookup'];
+                    if($domainLookup->validate()){
+                        $client = new IkelRegistry();
+                        $domain = $domainLookup->domain.$domainLookup->sld;
+                        $response = $client->checkDomain($domain);
+                        if(isset($response['success']['msg'])){
+                           Yii::app()->user->setFlash('domain',$response['success']['msg']);
+                        }
+                        if(isset($response['error']['msg'])){
+                           Yii::app()->user->setFlash('domain',$response['error']['msg']);
+                        }
+                       
+                    }
+                    
+                     $this->render('index',array('lookup'=>$domainLookup));
+                }
+                else{
+		     $this->render('index',array('lookup'=>$domainLookup));
+                }
 	}
+        
+        
+        public function actionDomain(){
+            $domain = new Domain();
+            $adminContact = new VCard();
+            $techContact = new VCard();
+            
+            if(isset($_POST['Domain'])&&isset($_POST['VCard'])&&isset($_POST['VCard'])){
+                $domain->attributes = $_POST['Domain'];
+                $adminContact->attributes = $_POST['VCard'][VCard::DOMAIN_ADMIN_CONTACT];
+                $techContact->attributes = $_POST['VCard'][VCard::DOMAIN_TECH_CONTACT];
+                
+                if($domain->validate()&&$techContact->validate()&&$adminContact->validate()){
+                    
+                    $client = new IkelRegistry();
+                   
+                    $response = $client->createDomain($domain,$adminContact,$techContact);
+                     
+                        if(isset($response['success']['msg'])){
+                           Yii::app()->user->setFlash('domain',$response['success']['msg']);
+                        }
+                        if(isset($response['error']['msg'])){
+                           Yii::app()->user->setFlash('domain',$response['error']['msg']);
+                        }
+                         
+                }
+                
+                $this->render('domainRegistration',
+                    array(
+                        'model'=>$domain,
+                        'adminContact'=>$adminContact,
+                        'techContact'=>$techContact,
+                        )
+                    );
+            }
+            else{
+            $this->render('domainRegistration',
+                    array(
+                        'model'=>$domain,
+                        'adminContact'=>$adminContact,
+                        'techContact'=>$techContact,
+                        )
+                    );
+            }
+        }
 
 	/**
 	 * This is the action to handle external exceptions.
@@ -106,14 +169,5 @@ class SiteController extends Controller
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
-        
-        
-        public  function actionWhois(){
-            $registry = new IkelRegistry;
-            //print_r($registry);
-            $data = $registry->infoDomain('ikeltz.cz');
-            //print_r($data);
-            
-            $this->render('whois',array('data'=>$data));
-        }
+       
 }

@@ -5,14 +5,20 @@ $this->pageTitle=Yii::app()->name;
 ?>
 
 <div class="center hero-unit">
-<h1>Welcome to <i><?php echo CHtml::encode(Yii::app()->name); ?></i></h1>
-<?php
-    $registry = new IkelRegistry();
-//    $registry->renewDomain('ikeltz.cz', 1);
-    $registry->checkDomain('ikeltz.cz');
- ?>
+    <?php if(Yii::app()->user->hasFlash('domain')):?>
+                    <div class="alert alert_success"><?php echo Yii::app()->user->getFlash('domain'); ?></div>
+                    <?php 
+                        Yii::app()->clientScript->registerScript(
+                                'fadeAndHideEffect',
+                                '$(".alert_success").animate({opacity: 1.0},2000).fadeOut("slow");'
+                                
+                                );
+                    ?>
+     <?php endif;?>
+   <p> <?php $this->renderPartial('_lookup',array('lookup'=>$lookup));?></p>
+    
 
-
+<br /><br />
 <p>EPP is the Extensible Provisioning Protocol. EPP (defined in RFC 5730 and subsequent documents) is an application layer client-server protocol for the provisioning and management of objects stored in a shared central repository.</p> 
 <p>Specified in XML, the protocol defines generic object management operations and an extensible framework that maps protocol operations to objects. As of writing, its only well-developed application is the provisioning of Internet domain names, hosts, and related contact details.
 

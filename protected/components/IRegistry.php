@@ -1,10 +1,5 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author robert
@@ -17,7 +12,7 @@ interface IRegistry {
     function checkKeyset();
     function checkNsset();
     function createContact();
-    function createDomain();
+    function createDomain($domain,$techContact,$adminContact);
     function createKeyset();
     function createNsset();
     function creditInfo();
