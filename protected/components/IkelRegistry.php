@@ -110,6 +110,56 @@ public function checkNsset(){
 }
 
 public function createContact(){
+    $xml= '<?xml version="1.0" encoding="utf-8" standalone="no"?>
+        <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
+        <command>
+            <create>
+                <contact:create 
+                    xmlns:contact="http://www.nic.cz/xml/epp/contact-1.6" 
+                    xsi:schemaLocation="http://www.nic.cz/xml/epp/contact-1.6 contact-1.6.xsd">
+                    <contact:id>UCC1</contact:id>
+                    <contact:postalInfo><contact:name>John Richard</contact:name>
+                    <contact:org>UCC</contact:org>
+                    <contact:addr><contact:street>Mawasiliano</contact:street>
+                    <contact:city>Dar es salaam</contact:city>
+                    <contact:sp>Dar es salaam</contact:sp>
+                    <contact:pc>12000</contact:pc>
+                    <contact:cc>TZ</contact:cc>
+                    </contact:addr>
+                    </contact:postalInfo>
+                    <contact:voice>+266.756908675</contact:voice>
+                    <contact:email>john.richard@uccmail.co.tz</contact:email>
+                    <contact:authInfo>john</contact:authInfo>
+                    <contact:disclose flag="1"/>
+                    <contact:notifyEmail>john.richard@uccmail.co.tz</contact:notifyEmail>
+                </contact:create>
+           </create>
+       <clTRID>JR001</clTRID>
+       </command>
+     </epp>';
+    
+    $client = $this->ikeltz_Client();
+    $result = $client->request($xml);
+    
+    $doc = new DOMDocument;
+    $doc->loadXML($result);
+    
+    $coderes = $doc->getElementsByTagName('result')->item(0)->getAttribute('code');
+    $msg = $doc->getElementsByTagName('msg')->item(0)->nodeValue;
+
+    $response = array();
+    if(!$coderes == 1000){
+
+               $response['error']['msg'] = "Code {$coderes} {$msg}";
+    }
+    else{
+               $response['success']['msg'] = "{$msg}";
+    }
+    
+    return $response;
+    
     
 }
 
@@ -124,9 +174,9 @@ public function createDomain($domain,$techContact,$adminContact){
                 <domain:create 
                 xmlns:domain="http://www.nic.cz/xml/epp/domain-1.4" 
                 xsi:schemaLocation="http://www.nic.cz/xml/epp/domain-1.4 domain-1.4.xsd">
-                    <domain:name>'.$domain->name.'mamamiya.cz</domain:name>
+                    <domain:name>'.$domain->name.'</domain:name>
                     <domain:period unit="y">3</domain:period>
-                    <domain:registrant>CID:IKEL</domain:registrant>
+                    <domain:registrant>IKEL</domain:registrant>
                     <domain:admin>IKEL</domain:admin>
                     <domain:authInfo>drobyg3</domain:authInfo>
                 </domain:create>
@@ -161,6 +211,28 @@ public function createKeyset(){
 }
 
 public function createNsset(){
+    $xml = '<?xml version="1.0" encoding="utf-8" standalone="no"?>
+        <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
+        <command>
+            <create>
+                <nsset:create 
+                xmlns:nsset="http://www.nic.cz/xml/epp/nsset-1.2" 
+                xsi:schemaLocation="http://www.nic.cz/xml/epp/nsset-1.2 nsset-1.2.xsd">
+                    <nsset:id>NS-IKELTZ</nsset:id>
+                    <nsset:ns><nsset:name>ns1.ikeltz.com</nsset:name>
+                    <nsset:addr>217.31.207.130</nsset:addr>
+                    </nsset:ns>
+                    <nsset:ns><nsset:name>ns2.ikeltz.com</nsset:name>
+                    <nsset:addr>217.31.207.130</nsset:addr>
+                    </nsset:ns>
+                    <nsset:tech>IKEL</nsset:tech>
+                </nsset:create>
+            </create>
+       <clTRID>xmcw002#13-07-04at14:26:32</clTRID>
+       </command>
+</epp>';
 }
 
 public function creditInfo(){

@@ -94,6 +94,30 @@ class SiteController extends Controller
                     );
             }
         }
+        
+        
+        public function actionDomainContact(){
+            if(isset($_POST)){
+            $client = new IkelRegistry();
+            try{
+            $response = $client->createContact();
+            }catch(Exception $ex){
+                echo $ex->getMessage();
+            }
+            
+            
+                        if(isset($response['success']['msg'])){
+                           //Yii::app()->user->setFlash('domain',$response['success']['msg']);
+                            echo $response['success']['msg'];
+                        }
+                        if(isset($response['error']['msg'])){
+                           //Yii::app()->user->setFlash('domain',$response['error']['msg']);
+                            echo $response['error']['msg'];
+                        }
+                        
+            }
+            
+        }
 
 	/**
 	 * This is the action to handle external exceptions.
