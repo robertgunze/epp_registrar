@@ -42,7 +42,7 @@
             <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->
             <div class="nav-collapse collapse" >
               <ul class="nav pull-right">
-                <li class="active"><a href="<?php echo $this->createUrl('site/index'); ?>">Home</a></li>
+                  <li class="active"><a href="<?php echo $this->createUrl('site/index'); ?>"><i class="icon-home"></i>Home</a></li>
                 <li><a href="<?php echo $this->createUrl('site/page', array('view'=>'about'));?>">About</a></li>
                 <li><a href="<?php echo $this->createUrl('site/contact');?>">Contact</a></li>
                 <li><a href="<?php echo $this->createUrl('site/login');?>" style="display:<?php echo Yii::app()->user->isGuest?'block':'none' ?>">Sign in</a></li>
