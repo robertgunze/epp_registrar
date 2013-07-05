@@ -97,7 +97,7 @@ class SiteController extends Controller
         
         
         public function actionDomainContact(){
-            if(isset($_POST)){
+            if(isset($_POST['submit'])){
             $client = new IkelRegistry();
             try{
             $response = $client->createContact();
@@ -115,7 +115,10 @@ class SiteController extends Controller
                             echo $response['error']['msg'];
                         }
                         
+                        
+                        
             }
+            
             
         }
 

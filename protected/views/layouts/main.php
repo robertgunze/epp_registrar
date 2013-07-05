@@ -42,11 +42,11 @@
             <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->
             <div class="nav-collapse collapse" >
               <ul class="nav pull-right">
-                  <li class="active"><a href="<?php echo $this->createUrl('site/index'); ?>"><i class="icon-home"></i>Home</a></li>
-                <li><a href="<?php echo $this->createUrl('site/page', array('view'=>'about'));?>">About</a></li>
-                <li><a href="<?php echo $this->createUrl('site/contact');?>">Contact</a></li>
-                <li><a href="<?php echo $this->createUrl('site/login');?>" style="display:<?php echo Yii::app()->user->isGuest?'block':'none' ?>">Sign in</a></li>
-                <li><a href="<?php echo $this->createUrl('site/logout');?>" style="display:<?php echo !Yii::app()->user->isGuest?'block':'none' ?>"><?php echo 'Logout ('.Yii::app()->user->name.')';?></a></li></li>
+                <li class="<?php echo $this->breadcrumbs[0] =='Home'?'active':''; ?>"><a href="<?php echo $this->createUrl('site/index'); ?>"><i class="icon-home"></i>Home</a></li>
+                <li class="<?php echo $this->breadcrumbs[0]=='About'?'active':''; ?>"><a href="<?php echo $this->createUrl('site/page', array('view'=>'about'));?>">About</a></li>
+                <li class="<?php echo $this->breadcrumbs[0]=='Contact'?'active':''; ?>"><a href="<?php echo $this->createUrl('site/contact');?>">Contact</a></li>
+                <li class="<?php echo $this->breadcrumbs[0]=='Login'?'active':''; ?>"><a href="<?php echo $this->createUrl('site/login');?>" style="display:<?php echo Yii::app()->user->isGuest?'block':'none' ?>">Sign in</a></li>
+                <li ><a href="<?php echo $this->createUrl('site/logout');?>" style="display:<?php echo !Yii::app()->user->isGuest?'block':'none' ?>"><?php echo 'Logout ('.Yii::app()->user->name.')';?></a></li></li>
               </ul>
             </div><!--/.nav-collapse -->
           </div><!-- /.navbar-inner -->
@@ -77,11 +77,14 @@
                 
                 ?>
 	</div><!-- mainmenu -->
-	<?php if(isset($this->breadcrumbs)):?>
+        <br /><br /><br />
+        <div class="breadcrumb">
+	<?php if(isset($this->breadcrumbs)&&$this->breadcrumbs[0]!='Home'):?>
 		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
 			'links'=>$this->breadcrumbs,
 		)); ?><!-- breadcrumbs -->
 	<?php endif?>
+        </div>
 
 	<?php echo $content; ?>
 
@@ -91,7 +94,6 @@
             <small>
                 Copyright &copy; <?php echo date('Y'); ?> by iKEL.
 		All Rights Reserved.
-                
             </small>
             <nav>
                 <ul>

@@ -70,123 +70,123 @@ Please fill out the following form to register your domain. Thank you.
 	</div>
       </div>
         
-        <h3 class="breadcrumb">Administrative Contact of Organization</h3>
+        <h3 class="breadcrumb ">Administrative Contact of Organization</h3>
         <div class="well">
         <div class="row">
-		<?php echo $form->labelEx($adminContact,'[1]wholeName'); ?>
-		<?php echo $form->textField($adminContact,'[1]wholeName'); ?>
-		<?php echo $form->error($adminContact,'[1]wholeName'); ?>
+		<?php echo $form->labelEx($adminContact,  '['.VCard::DOMAIN_ADMIN_CONTACT.']wholeName'); ?>
+		<?php echo $form->textField($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']wholeName'); ?>
+		<?php echo $form->error($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']wholeName'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($adminContact,'[1]organizationName'); ?>
-		<?php echo $form->textField($adminContact,'[1]organizationName'); ?>
-		<?php echo $form->error($adminContact,'[1]organizationName'); ?>
+		<?php echo $form->labelEx($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']organizationName'); ?>
+		<?php echo $form->textField($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']organizationName'); ?>
+		<?php echo $form->error($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']organizationName'); ?>
 	</div>
         <div class="row">
-		<?php echo $form->labelEx($adminContact,'[1]addressLine1'); ?>
-		<?php echo $form->textField($adminContact,'[1]addressLine1'); ?>
-		<?php echo $form->error($adminContact,'[1]addressLine1'); ?>
+		<?php echo $form->labelEx($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']addressLine1'); ?>
+		<?php echo $form->textField($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']addressLine1'); ?>
+		<?php echo $form->error($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']addressLine1'); ?>
 	</div>
         <div class="row">
-		<?php echo $form->labelEx($adminContact,'[1]addressLine2'); ?>
-		<?php echo $form->textField($adminContact,'[1]addressLine2'); ?>
-		<?php echo $form->error($adminContact,'[1]addressLine2'); ?>
+		<?php echo $form->labelEx($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']addressLine2'); ?>
+		<?php echo $form->textField($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']addressLine2'); ?>
+		<?php echo $form->error($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']addressLine2'); ?>
 	</div>
         <div class="row">
-		<?php echo $form->labelEx($adminContact,'[1]city'); ?>
-		<?php echo $form->textField($adminContact,'[1]city'); ?>
-		<?php echo $form->error($adminContact,'[1]city'); ?>
+		<?php echo $form->labelEx($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']city'); ?>
+		<?php echo $form->textField($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']city'); ?>
+		<?php echo $form->error($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']city'); ?>
 	</div>
         
          <div class="row">
-		<?php echo $form->labelEx($adminContact,'[1]postalCode'); ?>
-		<?php echo $form->textField($adminContact,'[1]postalCode'); ?>
-		<?php echo $form->error($adminContact,'[1]postalCode'); ?>
+		<?php echo $form->labelEx($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']postalCode'); ?>
+		<?php echo $form->textField($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']postalCode'); ?>
+		<?php echo $form->error($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']postalCode'); ?>
 	</div>
         
          <div class="row">
-		<?php echo $form->labelEx($adminContact,'[1]country'); ?>
-		<?php echo $form->textField($adminContact,'[1]country'); ?>
-		<?php echo $form->error($adminContact,'[1]country'); ?>
+		<?php echo $form->labelEx($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']country'); ?>
+		<?php echo $form->textField($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']country'); ?>
+		<?php echo $form->error($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']country'); ?>
 	</div>
         
          <div class="row">
-		<?php echo $form->labelEx($adminContact,'[1]voicePhone'); ?>
-		<?php echo $form->textField($adminContact,'[1]voicePhone'); ?>
-		<?php echo $form->error($adminContact,'[1]voicePhone'); ?>
+		<?php echo $form->labelEx($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']voicePhone'); ?>
+		<?php echo $form->textField($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']voicePhone'); ?>
+		<?php echo $form->error($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']voicePhone'); ?>
 	</div>
         
         <div class="row">
-		<?php echo $form->labelEx($adminContact,'[1]electronicMailbox'); ?>
-		<?php echo $form->textField($adminContact,'[1]electronicMailbox'); ?>
-		<?php echo $form->error($adminContact,'[1]electronicMailbox'); ?>
+		<?php echo $form->labelEx($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']electronicMailbox'); ?>
+		<?php echo $form->textField($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']electronicMailbox'); ?>
+		<?php echo $form->error($adminContact,'['.VCard::DOMAIN_ADMIN_CONTACT.']electronicMailbox'); ?>
 	</div>
         </div>
         
         <h3 class="breadcrumb">Technical and Zone Contact</h3>
         <div class="well">
         <div >
-		<?php echo $form->labelEx($techContact,'[2]wholeName'); ?>
-		<?php echo $form->textField($techContact,'[2]wholeName'); ?>
-		<?php echo $form->error($techContact,'[2]wholeName'); ?>
+		<?php echo $form->labelEx($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']wholeName'); ?>
+		<?php echo $form->textField($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']wholeName'); ?>
+		<?php echo $form->error($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']wholeName'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($techContact,'[2]organizationName'); ?>
-		<?php echo $form->textField($techContact,'[2]organizationName'); ?>
-		<?php echo $form->error($techContact,'[2]organizationName'); ?>
+		<?php echo $form->labelEx($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']organizationName'); ?>
+		<?php echo $form->textField($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']organizationName'); ?>
+		<?php echo $form->error($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']organizationName'); ?>
 	</div>
         <div class="row">
-		<?php echo $form->labelEx($techContact,'[2]addressLine1'); ?>
-		<?php echo $form->textField($techContact,'[2]addressLine1'); ?>
-		<?php echo $form->error($techContact,'[2]addressLine1'); ?>
+		<?php echo $form->labelEx($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']addressLine1'); ?>
+		<?php echo $form->textField($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']addressLine1'); ?>
+		<?php echo $form->error($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']addressLine1'); ?>
 	</div>
         <div class="row">
-		<?php echo $form->labelEx($techContact,'[2]addressLine2'); ?>
-		<?php echo $form->textField($techContact,'[2]addressLine2'); ?>
-		<?php echo $form->error($techContact,'[2]addressLine2'); ?>
+		<?php echo $form->labelEx($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']addressLine2'); ?>
+		<?php echo $form->textField($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']addressLine2'); ?>
+		<?php echo $form->error($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']addressLine2'); ?>
 	</div>
         <div class="row">
-		<?php echo $form->labelEx($techContact,'[2]city'); ?>
-		<?php echo $form->textField($techContact,'[2]city'); ?>
-		<?php echo $form->error($techContact,'[2]city'); ?>
+		<?php echo $form->labelEx($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']city'); ?>
+		<?php echo $form->textField($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']city'); ?>
+		<?php echo $form->error($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']city'); ?>
 	</div>
         
          <div class="row">
-		<?php echo $form->labelEx($techContact,'[2]postalCode'); ?>
-		<?php echo $form->textField($techContact,'[2]postalCode'); ?>
-		<?php echo $form->error($techContact,'[2]postalCode'); ?>
+		<?php echo $form->labelEx($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']postalCode'); ?>
+		<?php echo $form->textField($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']postalCode'); ?>
+		<?php echo $form->error($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']postalCode'); ?>
 	</div>
         
          <div class="row">
-		<?php echo $form->labelEx($techContact,'[2]country'); ?>
-		<?php echo $form->textField($techContact,'[2]country'); ?>
-		<?php echo $form->error($techContact,'[2]country'); ?>
+		<?php echo $form->labelEx($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']country'); ?>
+		<?php echo $form->textField($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']country'); ?>
+		<?php echo $form->error($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']country'); ?>
 	</div>
         
          <div class="row">
-		<?php echo $form->labelEx($techContact,'[2]voicePhone'); ?>
-		<?php echo $form->textField($techContact,'[2]voicePhone'); ?>
-		<?php echo $form->error($techContact,'[2]voicePhone'); ?>
+		<?php echo $form->labelEx($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']voicePhone'); ?>
+		<?php echo $form->textField($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']voicePhone'); ?>
+		<?php echo $form->error($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']voicePhone'); ?>
 	</div>
         
         <div class="row">
-		<?php echo $form->labelEx($techContact,'[2]electronicMailbox'); ?>
-		<?php echo $form->textField($techContact,'[2]electronicMailbox'); ?>
-		<?php echo $form->error($techContact,'[2]electronicMailbox'); ?>
+		<?php echo $form->labelEx($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']electronicMailbox'); ?>
+		<?php echo $form->textField($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']electronicMailbox'); ?>
+		<?php echo $form->error($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']electronicMailbox'); ?>
 	</div>
         
         <div class="row">
-		<?php echo $form->labelEx($techContact,'[2]registrationMailbox'); ?>
-		<?php echo $form->textField($techContact,'[2]registrationMailbox'); ?>
-		<?php echo $form->error($techContact,'[2]registrationMailbox'); ?>
+		<?php echo $form->labelEx($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']registrationMailbox'); ?>
+		<?php echo $form->textField($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']registrationMailbox'); ?>
+		<?php echo $form->error($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']registrationMailbox'); ?>
 	</div>
         
         <div class="row">
-		<?php echo $form->labelEx($techContact,'[2]faxNumber'); ?>
-		<?php echo $form->textField($techContact,'[2]faxNumber'); ?>
-		<?php echo $form->error($techContact,'[2]faxNumber'); ?>
+		<?php echo $form->labelEx($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']faxNumber'); ?>
+		<?php echo $form->textField($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']faxNumber'); ?>
+		<?php echo $form->error($techContact,'['.VCard::DOMAIN_TECH_CONTACT.']faxNumber'); ?>
 	</div>
         </div>
 	<div class="row buttons">

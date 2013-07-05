@@ -2,6 +2,9 @@
 /* @var $this SiteController */
 
 $this->pageTitle=Yii::app()->name;
+$this->breadcrumbs=array(
+	'Home',
+);
 ?>
 
 <div class="center hero-unit">
@@ -33,6 +36,7 @@ $this->pageTitle=Yii::app()->name;
 	        <?php echo CHtml::linkButton('Login to buy .tz domain',array('class'=>'btn btn-large btn-primary')); 
                 ?>
  </div>
+
 
 <br/><br />
 <div class="well">
