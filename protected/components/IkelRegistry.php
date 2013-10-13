@@ -339,7 +339,7 @@ public function prepNssets(){
 
 public function renewDomain($domain,$period){
 $client = $this->ikeltz_Client();
- 
+
 $xml = '<?xml version="1.0" encoding="utf-8" standalone="no"?>
     <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" 
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
@@ -402,15 +402,16 @@ $xml = '<?xml version="1.0" encoding="utf-8" standalone="no"?>
         //$reason = $doc->getElementsByTagName('reason')->item(0)->nodeValue;
          if(!$coderes == 1000){
               $values["error"] = "Code (".$coderes.") ".$msg."<br />";
+              return false;
          }
 
          else{
 
-             echo "<pre>";
-             echo "Code (".$coderes.") ".$msg.'<br />';
+             //echo "<pre>";
+             //echo "Code (".$coderes.") ".$msg.'<br />';
              //echo $reason;
-             echo "</pre>";
-             
+             //echo "</pre>";
+             return true;
          }
       
   }

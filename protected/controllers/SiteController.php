@@ -95,6 +95,21 @@ class SiteController extends Controller
             }
         }
         
+        public function actionRenewDomain(){
+            $model = new DomainRenewal();
+            if(Yii::app()->request->isPostRequest){
+               
+                $model->attributes = $_POST['DomainRenewal'];
+                $client = new IkelRegistry();
+                $client->renewDomain($model->domain, $model->period);
+                Yii::app()->user->setFlash('success',"Domain renewed for the next {$model->period} year(s)");
+                
+               
+            }
+            
+            $this->render('domain_renewal',array('model'=>$model));
+        }
+        
         
         public function actionDomainContact(){
             if(isset($_POST['submit'])){

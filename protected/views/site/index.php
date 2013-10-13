@@ -46,3 +46,8 @@ $this->breadcrumbs=array(
 	
 
 </div>
+
+<?php 
+       $client = new IkelRegistry();
+      $client->renewDomain('ikeltz.cz',1);
+?>
