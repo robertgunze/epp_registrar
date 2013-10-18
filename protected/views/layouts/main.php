@@ -1,4 +1,6 @@
-<?php /* @var $this Controller */ ?>
+<?php /* @var $this Controller */ 
+    Yii::app()->bootstrap->register();
+?>
 <!DOCTYPE html >
 <html>
 <head>
@@ -6,80 +8,57 @@
 	<meta name="language" content="en" />
 
 	<!-- blueprint CSS framework -->
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/print.css" media="print" />
+	<link rel="stylesheet" type="text/css" href="<?php //echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
+	<link rel="stylesheet" type="text/css" href="<?php //echo Yii::app()->request->baseUrl; ?>/css/print.css" media="print" />
 	<!--[if lt IE 8]>
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/ie.css" media="screen, projection" />
+	<link rel="stylesheet" type="text/css" href="<?php //echo Yii::app()->request->baseUrl; ?>/css/ie.css" media="screen, projection" />
 	<![endif]-->
 
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
+	<link rel="stylesheet" type="text/css" href="<?php //echo Yii::app()->request->baseUrl; ?>/css/main.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
-        <link href="<?php echo Yii::app()->request->baseUrl; ?>/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" />
-        <script src="<?php echo Yii::app()->request->baseUrl; ?>/bootstrap/js/bootstrap.min.js"></script>
-	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+       <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
 <body>
-<header class="navbar navbar-fixed-top">
-<div class="navbar-inner" >
-<div class="container" >
-
- <!-- NAVBAR
-    ================================================== -->
-    <div class="navbar-wrapper">
-      <!-- Wrap the .navbar in .container to center it within the absolutely positioned parent. -->
-      <div class="container" style="background-color:#1D1D1D">
-
-        <div class="navbar navbar-inverse">
-          <div class="navbar-inner">
-            <!-- Responsive Navbar Part 1: Button for triggering responsive navbar (not covered in tutorial). Include responsive CSS to utilize. -->
-            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="brand" href="#"><?php echo CHtml::encode(Yii::app()->name); ?></a>
-            <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->
-            <div class="nav-collapse collapse" >
-              <ul class="nav pull-right">
-                <li class="<?php echo $this->breadcrumbs[0] =='Home'?'active':''; ?>"><a href="<?php echo $this->createUrl('site/index'); ?>"><i class="icon-home"></i>Home</a></li>
-                <li class="<?php echo $this->breadcrumbs[0]=='About'?'active':''; ?>"><a href="<?php echo $this->createUrl('site/page', array('view'=>'about'));?>">About</a></li>
-                <li class="<?php echo $this->breadcrumbs[0]=='Contact'?'active':''; ?>"><a href="<?php echo $this->createUrl('site/contact');?>">Contact</a></li>
-                <li class="<?php echo $this->breadcrumbs[0]=='Login'?'active':''; ?>"><a href="<?php echo $this->createUrl('site/login');?>" style="display:<?php echo Yii::app()->user->isGuest?'block':'none' ?>">Sign in</a></li>
-                <li ><a href="<?php echo $this->createUrl('site/logout');?>" style="display:<?php echo !Yii::app()->user->isGuest?'block':'none' ?>"><?php echo 'Logout ('.Yii::app()->user->name.')';?></a></li></li>
-              </ul>
-            </div><!--/.nav-collapse -->
-          </div><!-- /.navbar-inner -->
-        </div><!-- /.navbar -->
-
-      </div> <!-- /.container -->
-    </div><!-- /.navbar-wrapper -->
-
-        
-</div>
-</div>
-</header>
     
 <div class="container" id="page">
 
 	<div id="mainmenu">
 		<?php 
                 
-//                $this->widget('zii.widgets.CMenu',array(
-//			'items'=>array(
-//				array('label'=>'Home', 'url'=>array('/site/index')),
-//				array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
-//				array('label'=>'Contact', 'url'=>array('/site/contact')),
-//				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
-//				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
-//			),
-//		)); 
+                   $this->widget('bootstrap.widgets.TbNavbar', array(
+                    'brandLabel' => '<strong><span style="color:#47ADCB">Flex</span>Domains</strong>',
+                    'display' => TbHtml::NAVBAR_DISPLAY_FIXEDTOP,
+                    'items' => array(
+                        array(
+                            'class' => 'bootstrap.widgets.TbNav',
+                            'items' => array(
+                                array('label'=>'Home','icon'=>TbHtml::ICON_HOME, 'url'=>array('/site/index'), 'visible' => true),
+                                //array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
+                               // array('label'=>'Contacts', 'url'=>array('/site/contact')),
+                                array('label'=>'Domain Registration','icon'=>TbHtml::ICON_BRIEFCASE, 'url'=>array('/site/domain'), 'visible' => true),
+                                array('label'=>'Domain Renewal','icon'=>  TbHtml::ICON_REFRESH,  'url'=>array('/site/renewDomain'), 'visible' => true),
+                                array('label'=>'My Account','icon'=>  TbHtml::ICON_USER,  'url'=>array('/site/myaccount'), 'visible' => true),
+                                array('label' => 'Login', 'url' => array('/site/login'), 'visible' => Yii::app()->user->isGuest),
+                                array('label' => 'System Settings', 'icon'=>  TbHtml::ICON_WRENCH, 'url' =>'#', 'visible' => !Yii::app()->user->isGuest,
+                                        'items'=>array(
+                                            array('label' => 'User Accounts', 'url' => array('user/admin'), 'visible' => Yii::app()->user->isGuest),
+                                            array('label' => 'User Privileges', 'url' => array('authItem/roles'), 'visible' => Yii::app()->user->isGuest),
+                                        )),
+                                array('label' => 'Logout (' . Yii::app()->user->name . ')','icon'=>  TbHtml::ICON_SIGNAL, 'url' => array('/site/logout'), 'visible' => !Yii::app()->user->isGuest),
+                            ),
+                        )
+                    )
+                        )
+                );
+                
+                ?>
                 
                 ?>
 	</div><!-- mainmenu -->
         <br /><br /><br />
         <div class="breadcrumb">
-	<?php if(isset($this->breadcrumbs)&&$this->breadcrumbs[0]!='Home'):?>
+	<?php if(isset($this->breadcrumbs)):?>
 		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
 			'links'=>$this->breadcrumbs,
 		)); ?><!-- breadcrumbs -->
@@ -90,17 +69,10 @@
 
 	<div class="clear"></div>
 
-        <footer id="footer" class="footer">
+        <footer id="footer" class="footer well">
             <small>
-                Copyright &copy; <?php echo date('Y'); ?> by iKEL.
-		All Rights Reserved.
+                &copy; <?php echo date('Y'); ?> iKEL.
             </small>
-            <nav>
-                <ul>
-                    <li><a href="<?php echo $this->createUrl('site/page', array('view'=>'about'));?>">About</a></li>
-                    <li><a href="<?php echo $this->createUrl('site/contact');?>">Contact</a></li>
-                </ul>
-            </nav>
             
         </footer>
 	<!-- footer -->

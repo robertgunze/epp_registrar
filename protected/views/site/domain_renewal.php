@@ -6,7 +6,7 @@ $this->breadcrumbs=array(
 );
 ?>
 
-<h2 class="breadcrumb">Domain Renewal </h2>
+<?php echo TbHtml::pageHeader('', 'Domain Renewal')?>
 <div class="form wide">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -32,10 +32,11 @@ $this->breadcrumbs=array(
                 <?php echo $form->textField($model,'period'); ?>
                 <?php echo $form->error($model,'period'); ?>
         </div>
-</div>
-	<div class="row buttons">
-		<?php echo CHtml::submitButton('Renew',array('class'=>'btn btn-large btn-primary')); ?>
+        <div class="row buttons">
+		<?php echo CHtml::submitButton('Renew',array('class'=>'btn btn-info')); ?>
 	</div>
+</div>
+	
 
 <?php $this->endWidget(); ?>
 

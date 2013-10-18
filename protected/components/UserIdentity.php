@@ -17,17 +17,17 @@ class UserIdentity extends CUserIdentity
 	 */
 	public function authenticate()
 	{
-		$users=array(
-			// username => password
-			'demo'=>'demo',
-			'admin'=>'admin',
-		);
-		if(!isset($users[$this->username]))
+		$user = User::model()->find('email=:email',array(':email'=>$this->username));
+		if($user==null)
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
-		elseif($users[$this->username]!==$this->password)
+		else if($user->password!==$user->hashPassword($this->password))
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
-		else
-			$this->errorCode=self::ERROR_NONE;
+		else{
+                        $this->setState('user_id', $user->id);
+                        //$this->_id = $user->id;
+                        //$this->_username = $user->email;
+                        $this->errorCode=self::ERROR_NONE;
+                }
 		return !$this->errorCode;
 	}
 }

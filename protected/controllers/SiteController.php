@@ -31,60 +31,97 @@ class SiteController extends Controller
                 if(isset($_POST['DomainLookup'])){
                     $domainLookup->attributes = $_POST['DomainLookup'];
                     if($domainLookup->validate()){
-                        $client = new IkelRegistry();
+                        //$client = new IkelRegistry();
+                        $client = new IkelCommandRegistry();
                         $domain = $domainLookup->domain.$domainLookup->sld;
                         $response = $client->checkDomain($domain);
-                        if(isset($response['success']['msg'])){
-                           Yii::app()->user->setFlash('domain',$response['success']['msg']);
+              
+                        if($response['attributes']["$domain"]['avail']){
+                             Yii::app()->user->setFlash('domain',$response['values']["$domain"].' '.
+                                     TbHtml::link('Buy Domain with MPESA/TIGO-PESA/AIRTEL MONEY',
+                                             $this->createUrl('domain'),
+                                             array('class'=>'btn btn-success')));
                         }
-                        if(isset($response['error']['msg'])){
-                           Yii::app()->user->setFlash('domain',$response['error']['msg']);
+                        else{
+                             Yii::app()->user->setFlash('domain',$response['values']["$domain"]);
                         }
-                       
+//                        if(isset($response['success']['msg'])){
+//                           Yii::app()->user->setFlash('domain',$response['success']['msg']);
+//                        }
+//                        if(isset($response['error']['msg'])){
+//                           Yii::app()->user->setFlash('domain',$response['error']['msg']);
+//                        }
+//                       
                     }
                     
-                     $this->render('index',array('lookup'=>$domainLookup));
+                     
                 }
-                else{
-		     $this->render('index',array('lookup'=>$domainLookup));
-                }
+             
+	      $this->render('index',array('lookup'=>$domainLookup));
+                
 	}
         
+        private function _saveDomainInfo($response,$user_id){
+            $domainInfoModel = new Domain();
+            $domainInfoModel->date_registered = date('Y-m-d H:i:s');
+            $domainInfoModel->date_of_expiry = $response['values']['domain:exDate'];
+            $domainInfoModel->name = $response['values']['domain:name'];
+            $domainInfoModel->user_id = (int)$user_id;
+            
+            
+            return $domainInfoModel->save();
+        }
+        
+        private function _createUser($adminContact){
+            $user = User::model()->findByAttributes(
+                      array('email'=>$adminContact->electronicMailbox)
+                    );
+            if($user){
+                return $user->id;
+            }
+            
+            $user = new User();
+            $user->email = $adminContact->electronicMailbox;
+            $user->mobile = $adminContact->voicePhone;
+            $user->password = sha1(rand(1000, 9999));
+            
+            if($user->save()){
+                $user = User::model()->findByAttributes(
+                      array('email'=>$adminContact->electronicMailbox)
+                    );
+               return $user->id;
+            }
+        }
         
         public function actionDomain(){
-            $domain = new Domain();
+            $domain = new DomainForm();
             $adminContact = new VCard();
             $techContact = new VCard();
             
-            if(isset($_POST['Domain'])&&isset($_POST['VCard'])&&isset($_POST['VCard'])){
-                $domain->attributes = $_POST['Domain'];
+            if(Yii::app()->request->isPostRequest){
+                
+                $domain->attributes = $_POST['DomainForm'];
                 $adminContact->attributes = $_POST['VCard'][VCard::DOMAIN_ADMIN_CONTACT];
                 $techContact->attributes = $_POST['VCard'][VCard::DOMAIN_TECH_CONTACT];
-                
-                if($domain->validate()&&$techContact->validate()&&$adminContact->validate()){
-                    
-                    $client = new IkelRegistry();
-                   
+                if($domain->validate()&&$adminContact->validate()){
+                    //$client = new IkelRegistry();
+                    $client = new IkelCommandRegistry();
                     $response = $client->createDomain($domain,$adminContact,$techContact);
-                     
-                        if(isset($response['success']['msg'])){
-                           Yii::app()->user->setFlash('domain',$response['success']['msg']);
-                        }
-                        if(isset($response['error']['msg'])){
+                    $user_id = $this->_createUser($adminContact);
+                    $this->_saveDomainInfo($response, $user_id);
+            
+                    if(isset($response['values']['domain:name'])){
+                           Yii::app()->user->setFlash('domain',$response['values']['domain:name']);
+                    }
+                    if(isset($response['error']['msg'])){
                            Yii::app()->user->setFlash('domain',$response['error']['msg']);
-                        }
+                    }
                          
                 }
                 
-                $this->render('domainRegistration',
-                    array(
-                        'model'=>$domain,
-                        'adminContact'=>$adminContact,
-                        'techContact'=>$techContact,
-                        )
-                    );
+               
             }
-            else{
+            
             $this->render('domainRegistration',
                     array(
                         'model'=>$domain,
@@ -92,22 +129,37 @@ class SiteController extends Controller
                         'techContact'=>$techContact,
                         )
                     );
-            }
+            
         }
         
         public function actionRenewDomain(){
+            
             $model = new DomainRenewal();
+            if(isset($_GET['domain']))
+                $model->domain = $_GET['domain'];
             if(Yii::app()->request->isPostRequest){
                
                 $model->attributes = $_POST['DomainRenewal'];
-                $client = new IkelRegistry();
-                $client->renewDomain($model->domain, $model->period);
+                //$client = new IkelRegistry();
+                $client = new IkelCommandRegistry();
+                $response = $client->renewDomain($model->domain, $model->period);
+                $domain = Domain::model()->findByAttributes(array('name'=>$model->domain));
+                $domain->date_of_expiry = $response['values']['domain:exDate'];
+                $domain->save();
                 Yii::app()->user->setFlash('success',"Domain renewed for the next {$model->period} year(s)");
-                
-               
+                  
             }
             
             $this->render('domain_renewal',array('model'=>$model));
+        }
+        
+        public function actionMyAccount(){
+            $user_id = Yii::app()->user->getState('user_id');
+            $domains = Domain::model()->findAllByAttributes(array('user_id'=>$user_id));
+            $criteria = new CDbCriteria();
+            $criteria->condition = "user_id = {$user_id}";
+            $domainsDataProvider = new CActiveDataProvider('Domain',array('criteria'=>$criteria));
+            $this->render('my_account',array('domainsDataProvider'=>$domainsDataProvider));
         }
         
         

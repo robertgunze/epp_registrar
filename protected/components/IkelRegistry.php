@@ -31,7 +31,6 @@ public function checkContact($contact_id){
 <clTRID>eyjz002#13-06-29at22:52:44</clTRID>
 </command>
 </epp>
-
    ';
   
   $client = $this->ikeltz_Client();
@@ -72,7 +71,6 @@ public function checkDomain($domain){
                 <clTRID>ehcu002#13-06-29at23:37:45</clTRID>
               </command>
         </epp>
-
    ';
   
   $client = $this->ikeltz_Client();
@@ -88,16 +86,9 @@ public function checkDomain($domain){
   if(!$coderes == 1000){
              
              $response['error']['msg'] = "Code {$coderes} {$msg}";
-//             echo "<pre>";
-//             echo "Code {$coderes} {$msg}<br />";
-//             echo "</pre>";
   }
   else{
              $response['success']['msg'] = "Status: Domain {$status}";
-//             echo "<pre>";
-//             echo "Code {$coderes} {$msg}<br />";
-//             echo "Status: Domain {$status}";
-//             echo "</pre>";
   }
   
   return $response;
@@ -109,7 +100,9 @@ public function checkKeyset(){
 public function checkNsset(){
 }
 
-public function createContact(){
+public function createContact($vcard){
+    
+    
     $xml= '<?xml version="1.0" encoding="utf-8" standalone="no"?>
         <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" 
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
@@ -119,26 +112,55 @@ public function createContact(){
                 <contact:create 
                     xmlns:contact="http://www.nic.cz/xml/epp/contact-1.6" 
                     xsi:schemaLocation="http://www.nic.cz/xml/epp/contact-1.6 contact-1.6.xsd">
-                    <contact:id>UCC1</contact:id>
-                    <contact:postalInfo><contact:name>John Richard</contact:name>
-                    <contact:org>UCC</contact:org>
-                    <contact:addr><contact:street>Mawasiliano</contact:street>
-                    <contact:city>Dar es salaam</contact:city>
-                    <contact:sp>Dar es salaam</contact:sp>
-                    <contact:pc>12000</contact:pc>
-                    <contact:cc>TZ</contact:cc>
+                    <contact:id>IKEL-CONTACT-'.date('Y-m-d H:i:s').'</contact:id>
+                    <contact:postalInfo><contact:name>'.$vcard->wholeName.'</contact:name>
+                    <contact:org>'.$vcard->organizationName.'</contact:org>
+                    <contact:addr><contact:street>'.$vcard->addressLine1.' '.$vcard->addressLine2.'</contact:street>
+                    <contact:city>'.$vcard->city.'</contact:city>
+                    <contact:sp>'.$vcard->city.'</contact:sp>
+                    <contact:pc>'.$vcard->postalCode.'</contact:pc>
+                    <contact:cc>'.$vcard->country.'</contact:cc>
                     </contact:addr>
                     </contact:postalInfo>
-                    <contact:voice>+266.756908675</contact:voice>
-                    <contact:email>john.richard@uccmail.co.tz</contact:email>
-                    <contact:authInfo>john</contact:authInfo>
+                    <contact:voice>'.$vcard->voicePhone.'</contact:voice>
+                    <contact:email>'.$vcard->electronicMailbox.'</contact:email>
+                    <contact:authInfo>123456</contact:authInfo>
                     <contact:disclose flag="1"/>
-                    <contact:notifyEmail>john.richard@uccmail.co.tz</contact:notifyEmail>
+                    <contact:notifyEmail>'.$vcard->electronicMailbox.'</contact:notifyEmail>
                 </contact:create>
            </create>
        <clTRID>JR001</clTRID>
        </command>
      </epp>';
+    
+    $xml = '
+        <?xml version="1.0" encoding="utf-8" standalone="no"?>
+        <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
+        <command>
+            <create>
+                <contact:create 
+                xmlns:contact="http://www.nic.cz/xml/epp/contact-1.6" 
+                xsi:schemaLocation="http://www.nic.cz/xml/epp/contact-1.6 contact-1.6.xsd">
+                <contact:id>IKEL-CONTACT-'.date('Y-m-d H:i:s').'</contact:id>
+                <contact:postalInfo>
+                    <contact:name>'.$vcard->wholeName.'</contact:name>
+                    <contact:org>'.$vcard->organizationName.'</contact:org>
+                    <contact:addr><contact:street>'.$vcard->addressLine1.' '.$vcard->addressLine2.'</contact:street>
+                    <contact:city>'.$vcard->city.'</contact:city>
+                    <contact:pc>'.$vcard->postalCode.'</contact:pc>
+                    <contact:cc>TZ</contact:cc>
+                    </contact:addr>
+                </contact:postalInfo>
+                <contact:voice>'.$vcard->voicePhone.'</contact:voice>
+                <contact:email>'.$vcard->electronicMailbox.'</contact:email>
+                <contact:disclose flag="1"/><contact:notifyEmail>'.$vcard->electronicMailbox.'</contact:notifyEmail>
+                </contact:create>
+            </create>
+        <clTRID>aybh004#13-10-14at10:57:26</clTRID>
+    </command>
+</epp>';
     
     $client = $this->ikeltz_Client();
     $result = $client->request($xml);
@@ -175,7 +197,8 @@ public function createDomain($domain,$techContact,$adminContact){
                 xmlns:domain="http://www.nic.cz/xml/epp/domain-1.4" 
                 xsi:schemaLocation="http://www.nic.cz/xml/epp/domain-1.4 domain-1.4.xsd">
                     <domain:name>'.$domain->name.'</domain:name>
-                    <domain:period unit="y">3</domain:period>
+                    <domain:period unit="y">1</domain:period>
+                    <domain:nsset>NS-IKELTZ</domain:nsset>
                     <domain:registrant>IKEL</domain:registrant>
                     <domain:admin>IKEL</domain:admin>
                     <domain:authInfo>drobyg3</domain:authInfo>
@@ -210,30 +233,48 @@ public function createKeyset(){
     
 }
 
-public function createNsset(){
+public function createNsset($domain){
     $xml = '<?xml version="1.0" encoding="utf-8" standalone="no"?>
-        <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" 
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
+        <epp xmlns="urn:ietf:params:xml:ns:epp-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
         <command>
-            <create>
-                <nsset:create 
-                xmlns:nsset="http://www.nic.cz/xml/epp/nsset-1.2" 
-                xsi:schemaLocation="http://www.nic.cz/xml/epp/nsset-1.2 nsset-1.2.xsd">
-                    <nsset:id>NS-IKELTZ</nsset:id>
-                    <nsset:ns><nsset:name>ns1.ikeltz.com</nsset:name>
-                    <nsset:addr>217.31.207.130</nsset:addr>
-                    </nsset:ns>
-                    <nsset:ns><nsset:name>ns2.ikeltz.com</nsset:name>
-                    <nsset:addr>217.31.207.130</nsset:addr>
-                    </nsset:ns>
-                    <nsset:tech>IKEL</nsset:tech>
-                </nsset:create>
-            </create>
-       <clTRID>xmcw002#13-07-04at14:26:32</clTRID>
-       </command>
-</epp>';
+        <create>
+            <nsset:create xmlns:nsset="http://www.nic.cz/xml/epp/nsset-1.2" xsi:schemaLocation="http://www.nic.cz/xml/epp/nsset-1.2 nsset-1.2.xsd">
+                <nsset:id>NS-IKELTZ-Y</nsset:id>
+                <nsset:ns><nsset:name>ns1.ikeltz.com</nsset:name>
+                </nsset:ns>
+                <nsset:ns><nsset:name>ns2.ikeltz.com</nsset:name>
+                </nsset:ns>
+                <nsset:tech>IKEL</nsset:tech>
+            </nsset:create>
+        </create>
+        <clTRID>vsru002#13-10-14at11:20:37</clTRID>
+        </command>
+    </epp>
+    ';
+    
+//    $client = $this->ikeltz_Client();
+//    $result = $client->request($xml);
+//    
+//    $doc = new DOMDocument;
+//    $doc->loadXML($result);
+//    $coderes = $doc->getElementsByTagName('result')->item(0)->getAttribute('code');
+//    $msg = $doc->getElementsByTagName('msg')->item(0)->nodeValue;
+//
+//    $response = array();
+//    if(!$coderes == 1000){
+//
+//               $response['error']['msg'] = "Code {$coderes} {$msg}";
+//    }
+//    else{
+//               $response['success']['msg'] = "{$msg}";
+//    }
+//    
+//    return $response;
+    
+ 
 }
+
+
 
 public function creditInfo(){
     
@@ -266,10 +307,10 @@ public function infoDomain($domain){
  
  passthru($command, $result);
  
- $content =  file_get_contents('/tmp/output.php');
+ $content =  file_get_contents('/tmp/output_'.sha1(Yii::app()->user->id).'.php');
  $content = '<?php '.$content. '?>';
- file_put_contents('/tmp/output.php', $content);
- require_once '/tmp/output.php';
+ file_put_contents('/tmp/output_'.sha1(Yii::app()->user->id).'.php', $content);
+ require_once '/tmp/output_'.sha1(Yii::app()->user->id).'.php';
  
  $data = array();
  $data['labels']= $fred_labels;
@@ -460,7 +501,7 @@ public function updateNsset(){
 
 //non xml implementation: relies on running command through php passthrough function
 public function createCommand($cmd){
-    $command = "/var/www/epp_registrar/fred-client-2.4/fred-client --command='{$cmd}' --output=php > /tmp/output.php";
+    $command = "/var/www/epp_registrar/fred-client-2.4/fred-client --command='{$cmd}' --output=php > /tmp/output_".sha1(Yii::app()->user->id).".php";
     return $command;
 }
 

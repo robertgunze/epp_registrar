@@ -11,10 +11,10 @@ interface IRegistry {
     function checkDomain($domain);
     function checkKeyset();
     function checkNsset();
-    function createContact();
+    function createContact($vcard);
     function createDomain($domain,$techContact,$adminContact);
     function createKeyset();
-    function createNsset();
+    function createNsset($domain);
     function creditInfo();
     function deleteContact();
     function deleteDomain();
